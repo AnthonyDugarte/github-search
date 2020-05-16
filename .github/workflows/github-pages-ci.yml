@@ -1,4 +1,4 @@
-name: CI
+name: Deploy to Git Hub Pages
 
 on:
   push:
@@ -15,18 +15,19 @@ jobs:
           - 10.x
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          persist-credentials: false
 
       - name: Install and Build
         run: |
           yarn install
           yarn gatsby build --prefix-paths
 
-      - name: Deploy to GitHub pages
-        run: |
-          yarn gh-pages -d public -r https://${{ secrets.GH_TOKEN }}@github.com/AnthonyDugarte/github-search.git
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: public
