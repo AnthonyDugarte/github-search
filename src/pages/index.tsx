@@ -16,7 +16,7 @@ export default (props: PageProps) => {
       </h1>
 
       <SearchInput onSearch={setSearch} />
-      <UserList data={data} />
+      <UserList data={data} search={search} />
     </div>
   )
 }
