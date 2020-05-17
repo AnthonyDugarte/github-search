@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User card component Matches snapshot with search 1`] = `
+<DocumentFragment>
+  <a
+    class="group flex mb-4 last:mb-0 bg-white rounded-l-full rounded-r-full border border-gray-400 hover:outline-none hover:shadow-outline"
+    href=""
+    target="_blank"
+  >
+    <img
+      class="rounded-full h-24 group-hover:outline-none group-hover:shadow-lg"
+      src=""
+      title="Anthony"
+    />
+    <div
+      class="flex-1 p-4"
+    >
+      <div
+        class="font-bold text-xl"
+      >
+        <span
+          class="text-red-500"
+        >
+          An
+        </span>
+        thony
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
+
+exports[`User card component Matches snapshot without search 1`] = `
+<DocumentFragment>
+  <a
+    class="group flex mb-4 last:mb-0 bg-white rounded-l-full rounded-r-full border border-gray-400 hover:outline-none hover:shadow-outline"
+    href=""
+    target="_blank"
+  >
+    <img
+      class="rounded-full h-24 group-hover:outline-none group-hover:shadow-lg"
+      src=""
+      title="Anthony"
+    />
+    <div
+      class="flex-1 p-4"
+    >
+      <div
+        class="font-bold text-xl"
+      >
+        Anthony
+      </div>
+    </div>
+  </a>
+</DocumentFragment>
+`;
