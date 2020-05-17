@@ -8,7 +8,7 @@ describe("User card component", () => {
     const { asFragment } = render(
       <UserCard
         search="an"
-        data={{ username: "Anthony", avatar_url: "", profile_url: "" }}
+        data={{ id: 1, username: "Anthony", avatar_url: "", profile_url: "" }}
       />
     )
 
@@ -18,7 +18,7 @@ describe("User card component", () => {
   test("Matches snapshot without search", () => {
     const { asFragment } = render(
       <UserCard
-        data={{ username: "Anthony", avatar_url: "", profile_url: "" }}
+        data={{ id: 1, username: "Anthony", avatar_url: "", profile_url: "" }}
       />
     )
 
