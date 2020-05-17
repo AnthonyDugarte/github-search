@@ -6,6 +6,26 @@ import SearchInput from "../search-input"
 
 const githubSearchInputTestId = "github-search-input"
 
+describe("Search Input component", () => {
+  // Common vars to be used between tests
+  let mockOnSearch, renderedSearchInput
+
+  // Before each test we populate our rendered and mocked elements to be used at testing
+  beforeEach(() => {
+    mockOnSearch = jest.fn<void, [string]>()
+    renderedSearchInput = render(<SearchInput onSearch={mockOnSearch} />)
+  })
+
+  test("Matches snapshot", () => {
+    expect(renderedSearchInput.asFragment()).toMatchSnapshot()
+  })
+
+  test("Correctly debounce searching", async () => {
+    await testDebouncedInput(faker.name.firstName(), mockOnSearch, 0)
+    await testDebouncedInput(faker.name.firstName(), mockOnSearch, 1)
+  })
+})
+
 /**
  * Simulate user input
  * @param value string to input
@@ -16,56 +36,26 @@ function dispatchInputEntry(value: string): void {
   })
 }
 
-describe("Search Input component", () => {
-  // Common vars to be used between tests
-  let mockOnSearch, renderedSearchInput
+async function testDebouncedInput(
+  search: string,
+  onSearchMock: any,
+  callIdx: number
+): Promise<void> {
+  // Dispatch simulation of input
+  dispatchInputEntry(search)
 
-  // Before each test we populate our rendered and mocked elements to be used at testing
-  beforeEach(() => {
-    mockOnSearch = jest.fn()
-    renderedSearchInput = render(<SearchInput onSearch={mockOnSearch} />)
-  })
+  // User should see what he is typing
+  expect(screen.getByTestId(githubSearchInputTestId)).toHaveValue(search)
 
-  test("Matches snapshot", () => {
-    expect(renderedSearchInput.asFragment()).toMatchSnapshot()
-  })
+  // No searching has been made yet, waiting for user to stop typing
+  expect(onSearchMock.mock.calls[callIdx]).toBeUndefined()
+  await new Promise(resolve => setTimeout(resolve, 100))
+  expect(onSearchMock.mock.calls[callIdx]).toBeUndefined()
 
-  test("Correctly debounce searching", async () => {
-    const search1 = faker.name.firstName()
+  // "Wait" for user to stop typing
+  await new Promise(resolve => setTimeout(resolve, 500))
 
-    // Dispatch simulation of input
-    dispatchInputEntry(search1)
-
-    // User should see what he is typing
-    expect(screen.getByTestId(githubSearchInputTestId)).toHaveValue(search1)
-
-    // No searching has been made yet, waiting for user to stop typing
-    expect(mockOnSearch.mock.calls[0]).toBeUndefined()
-    await new Promise(resolve => setTimeout(resolve, 100))
-    expect(mockOnSearch.mock.calls[0]).toBeUndefined()
-
-    // "Wait" for user to stop typing
-    await new Promise(resolve => setTimeout(resolve, 500))
-
-    // A search should have been made
-    expect(mockOnSearch.mock.calls[0]?.[0]).toBe(search1)
-
-    // We are going to do another search
-    const search2 = faker.name.firstName()
-    dispatchInputEntry(search2)
-
-    // User shuld see his search
-    expect(screen.getByTestId(githubSearchInputTestId)).toHaveValue(search2)
-
-    // But we should wait to see if he hasn't stop searching
-    expect(mockOnSearch.mock.calls[1]).toBeUndefined()
-    await new Promise(resolve => setTimeout(resolve, 100))
-    expect(mockOnSearch.mock.calls[1]).toBeUndefined()
-
-    // User stoped typing for a while...
-    await new Promise(resolve => setTimeout(resolve, 300))
-
-    // Second search should have been made
-    expect(mockOnSearch.mock.calls[1]?.[0]).toBe(search2)
-  })
-})
+  // A search should have been made
+  expect(onSearchMock.mock.calls[callIdx]).not.toBeUndefined()
+  expect(onSearchMock.mock.calls[callIdx][0]).toBe(search)
+}
