@@ -28,7 +28,7 @@ const UserCard: FunctionComponent<UserCardProps> = ({ data, search }) => {
       target="_blank"
     >
       <img
-        className="rounded-full h-24 group-hover:outline-none group-hover:shadow-lg"
+        className="rounded-full h-24 w-24 group-hover:outline-none group-hover:shadow-lg shadow-sm"
         src={avatar_url}
         title={username}
       />
