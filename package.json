@@ -39,6 +39,7 @@
     "babel-jest": "^26.0.1",
     "babel-preset-gatsby": "^0.4.2",
     "faker": "^4.1.0",
+    "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.9",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.0.1",
     "prettier": "2.0.5"
