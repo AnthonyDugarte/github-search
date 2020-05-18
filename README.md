@@ -10,4 +10,4 @@ Search for users from GitHub through its API
 - [x] User Card
 - [x] Get Users from API
 - [x] Debounce search
-- [ ] Show user Repositories
+- [x] Show user Repositories

@@ -57,7 +57,7 @@ export default (props: PageProps) => {
           id,
           username: login,
           avatar_url,
-          profile_url: html_url,
+          profile_url: `${html_url}?tab=repositories`,
         })),
       })
     }
