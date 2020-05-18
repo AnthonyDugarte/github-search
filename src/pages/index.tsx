@@ -68,7 +68,12 @@ export default (props: PageProps) => {
       </h1>
 
       <SearchInput onSearch={setSearch} />
-      <UserList data={data} search={search} />
+      <UserList
+        data={data}
+        search={search}
+        fetchNext={nextPage}
+        hasMore={!search || data.length === _data?.total_count}
+      />
     </div>
   )
 }
