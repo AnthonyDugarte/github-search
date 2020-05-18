@@ -5,7 +5,24 @@
  */
 
 module.exports = {
-  /* Your site config here */
-  plugins: [],
+  plugins: [
+    "gatsby-plugin-sass",
+    "gatsby-plugin-postcss",
+    {
+      resolve: "gatsby-plugin-webpack-bundle-analyser-v2",
+      // Put disable to false if you wan to analyse bundle size
+      options: { disable: true },
+    },
+  ],
   pathPrefix: "/github-search",
+
+  siteMetadata: {
+    title: "GitHub search",
+    titleTemplate: "GitHub search · %s",
+    siteUrl: `https://anthonydugarte.github.io/github-search`,
+    url: "https://anthonydugarte.github.io/github-search",
+    description: "Search for  GitHub users",
+    image: "",
+    twitterUsername: "@AnthonyDugarte8",
+  },
 }
