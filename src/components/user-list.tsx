@@ -28,7 +28,11 @@ const UserList: FunctionComponent<UserListProps> = ({
       loadMore={fetchNext}
       initialLoad={false}
       hasMore={hasMore}
-      loader={<Loader type="pacman" active key={0} />}
+      loader={
+        <div className="mx-10">
+          <Loader type="pacman" active key={0} />
+        </div>
+      }
     >
       {data.map(user => (
         <UserCard key={user.id} data={user} search={search} />
