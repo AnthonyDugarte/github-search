@@ -15,7 +15,7 @@ const SearchInput: FunctionComponent<SearchInputProps> = ({ onSearch }) => {
     <DebounceInput
       data-testid="github-search-input"
       placeholder="Search for someone..."
-      className="border focus:outline-none focus:shadow-outline rounder border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal w-full lg:w-2/3"
+      className="-white shadow focus:outline-none focus:bg-gray-100 rounder border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal w-full lg:w-2/3"
       minLength={1}
       debounceTimeout={275} // https://humanbenchmark.com/tests/reactiontime/statistics
       onChange={_onSearch}

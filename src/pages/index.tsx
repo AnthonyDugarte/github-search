@@ -8,6 +8,7 @@ import React, {
 } from "react"
 import { PageProps } from "gatsby"
 import useSWR from "swr"
+import { FaGithub } from "react-icons/fa"
 
 import SearchInput from "../components/search-input"
 import UserList from "../components/user-list"
@@ -64,12 +65,22 @@ export default (props: PageProps) => {
   }, [_data])
 
   return (
-    <div className="container mx-auto h-screen flex flex-col p-8">
+    <div className="container mx-auto h-screen flex flex-col p-2 md:p-4 lg:p-8">
       <Seo />
 
-      <h1 className="text-4xl sm:text-6xl md:text-6xl text-red-500">
-        GitHub Search
-      </h1>
+      <nav className="flex items-center justify-between flex-wrap">
+        <span className="text-4xl sm:text-6xl md:text-6xl text-red-500">
+          GitHub Search
+        </span>
+
+        <a
+          className="-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border-gray-400 rounded shadow"
+          href="https://github.com/AnthonyDugarte/github-search"
+          target="_blank"
+        >
+          <FaGithub size={25} />
+        </a>
+      </nav>
 
       <SearchInput onSearch={setSearch} />
       <UserList
