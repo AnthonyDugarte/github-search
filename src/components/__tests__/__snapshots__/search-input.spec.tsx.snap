@@ -3,7 +3,7 @@
 exports[`Search Input component Matches snapshot 1`] = `
 <DocumentFragment>
   <input
-    class="border focus:outline-none focus:shadow-outline rounder border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal w-full lg:w-2/3"
+    class="-white shadow focus:outline-none focus:bg-gray-100 rounder border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal w-full lg:w-2/3"
     data-testid="github-search-input"
     placeholder="Search for someone..."
     type="text"
