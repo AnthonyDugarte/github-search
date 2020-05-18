@@ -5,7 +5,6 @@
  */
 
 module.exports = {
-  /* Your site config here */
   plugins: [
     "gatsby-plugin-sass",
     "gatsby-plugin-postcss",
@@ -16,4 +15,14 @@ module.exports = {
     },
   ],
   pathPrefix: "/github-search",
+
+  siteMetadata: {
+    title: "GitHub search",
+    titleTemplate: "GitHub search · %s",
+    siteUrl: `https://anthonydugarte.github.io/github-search`,
+    url: "https://anthonydugarte.github.io/github-search",
+    description: "Search for  GitHub users",
+    image: "",
+    twitterUsername: "@AnthonyDugarte8",
+  },
 }
