@@ -1,5 +1,8 @@
 import React, { FunctionComponent } from "react"
 import InfiniteScroll from "react-infinite-scroller"
+import Loader from "react-loaders"
+
+import "../css/search-list.scss"
 
 import { UserData } from "../interfaces"
 import UserCard from "./user-card"
@@ -25,11 +28,7 @@ const UserList: FunctionComponent<UserListProps> = ({
       loadMore={fetchNext}
       initialLoad={false}
       hasMore={hasMore}
-      loader={
-        <div className="loader" key={0}>
-          Loading ...
-        </div>
-      }
+      loader={<Loader type="pacman" active key={0} />}
     >
       {data.map(user => (
         <UserCard key={user.id} data={user} search={search} />

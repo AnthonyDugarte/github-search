@@ -72,7 +72,7 @@ export default (props: PageProps) => {
         data={data}
         search={search}
         fetchNext={nextPage}
-        hasMore={!search || data.length === _data?.total_count}
+        hasMore={!!search || data.length === _data?.total_count}
       />
     </div>
   )
