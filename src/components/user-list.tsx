@@ -22,7 +22,7 @@ const UserList: FunctionComponent<UserListProps> = ({
   fetchNext,
   hasMore,
 }) => (
-  <div className="flex-1 m-8">
+  <div className="flex-1 m-2 md:m-4 lg:m-8">
     <InfiniteScroll
       pageStart={1}
       loadMore={fetchNext}

@@ -23,19 +23,44 @@ const UserCard: FunctionComponent<UserCardProps> = ({ data, search }) => {
 
   return (
     <a
-      className="group flex mb-4 last:mb-0 bg-white rounded-l-full rounded-r-full border border-gray-400 hover:outline-none hover:shadow-outline"
+      className="group
+      flex 
+      mb-4
+      last:mb-0
+      bg-white
+      rounded-l-full
+      rounded-r-full
+      border
+      border-gray-400
+
+      transition
+      duration-500
+      ease-in-out
+      transform
+      hover:-translate-y-1
+      hover:scale-110"
       href={profile_url}
       target="_blank"
     >
       <img
-        className="rounded-full h-24 w-24 group-hover:outline-none group-hover:shadow-lg shadow-sm"
+        className="rounded-full
+        h-16
+        w-16
+        sm:h-20
+        sm:w-20
+        lg:h-24
+        lg:w-24
+
+        transition
+        shadow-sm
+        group-hover:shadow-lg"
         src={avatar_url}
         title={username}
       />
 
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-2 sm:p-3 md:p-4 lg:p-5 flex items-center">
         <div
-          className="font-bold text-xl"
+          className="font-bold text-lg sm:text-xl lg:text-2xl"
           dangerouslySetInnerHTML={{
             __html: dompurify.sanitize(formated_username, {}),
           }}
