@@ -8,6 +8,6 @@ Search for users from GitHub through its API
 - [x] Configure testing environment
 - [x] Search input
 - [x] User Card
-- [ ] Get Users from API
+- [x] Get Users from API
 - [x] Debounce search
 - [ ] Show user Repositories
