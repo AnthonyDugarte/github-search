@@ -17,7 +17,7 @@ import Seo from "../components/seo"
 import { UserData } from "../interfaces"
 import { githubUsersPaginatedDataSearchFetcher } from "../utils"
 
-const pageSize = 75
+const PAGE_SIZE = 75
 
 export default (props: PageProps) => {
   const [search, setSearch] = useState<string>(null)
@@ -32,7 +32,7 @@ export default (props: PageProps) => {
   }, [search])
 
   const { data: _data, error, isValidating } = useSWR(
-    search ? [search, page, pageSize] : null,
+    search ? [search, page, PAGE_SIZE] : null,
     githubUsersPaginatedDataSearchFetcher
   )
 
@@ -51,7 +51,7 @@ export default (props: PageProps) => {
     () =>
       dispatchPage({
         type: "set",
-        page: Math.floor(data.length / pageSize) + 1,
+        page: Math.floor(data.length / PAGE_SIZE) + 1,
       }),
     [data]
   )
