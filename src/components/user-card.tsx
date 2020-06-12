@@ -3,22 +3,28 @@ import dompurify from "dompurify"
 import { UserData } from "../interfaces"
 
 export interface UserCardProps {
-  search?: string
+  searchedQuery?: string
   data: UserData
 }
 
-const UserCard: FunctionComponent<UserCardProps> = ({ data, search }) => {
+const UserCard: FunctionComponent<UserCardProps> = ({
+  data,
+  searchedQuery,
+}) => {
   const { username, avatar_url, profile_url } = data
 
-  const formated_username = useMemo(
+  const formatedUsername = useMemo(
     () =>
-      !search
-        ? username
-        : username.replace(
-            RegExp(`(${search})`, "ig"),
-            "<span class='text-red-500'>$1</span>"
-          ),
-    [username, search]
+      dompurify.sanitize(
+        !searchedQuery
+          ? username
+          : username.replace(
+              RegExp(`(${searchedQuery})`, "ig"),
+              "<span class='text-red-500'>$1</span>"
+            ),
+        {}
+      ),
+    [username, searchedQuery]
   )
 
   return (
@@ -61,9 +67,7 @@ const UserCard: FunctionComponent<UserCardProps> = ({ data, search }) => {
       <div className="flex-1 p-2 sm:p-3 md:p-4 lg:p-5 flex items-center">
         <div
           className="font-bold text-lg sm:text-xl lg:text-2xl"
-          dangerouslySetInnerHTML={{
-            __html: dompurify.sanitize(formated_username, {}),
-          }}
+          dangerouslySetInnerHTML={{ __html: formatedUsername }}
         ></div>
       </div>
     </a>
