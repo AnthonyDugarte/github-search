@@ -13,14 +13,17 @@ const UserCard: FunctionComponent<UserCardProps> = ({
 }) => {
   const { username, avatar_url, profile_url } = data
 
-  const formated_username = useMemo(
+  const formatedUsername = useMemo(
     () =>
-      !searchedQuery
-        ? username
-        : username.replace(
-            RegExp(`(${searchedQuery})`, "ig"),
-            "<span class='text-red-500'>$1</span>"
-          ),
+      dompurify.sanitize(
+        !searchedQuery
+          ? username
+          : username.replace(
+              RegExp(`(${searchedQuery})`, "ig"),
+              "<span class='text-red-500'>$1</span>"
+            ),
+        {}
+      ),
     [username, searchedQuery]
   )
 
@@ -64,9 +67,7 @@ const UserCard: FunctionComponent<UserCardProps> = ({
       <div className="flex-1 p-2 sm:p-3 md:p-4 lg:p-5 flex items-center">
         <div
           className="font-bold text-lg sm:text-xl lg:text-2xl"
-          dangerouslySetInnerHTML={{
-            __html: dompurify.sanitize(formated_username, {}),
-          }}
+          dangerouslySetInnerHTML={{ __html: formatedUsername }}
         ></div>
       </div>
     </a>
