@@ -15,34 +15,43 @@ import UserList from "../components/user-list"
 import Seo from "../components/seo"
 
 import { UserData } from "../interfaces"
-import { githubAPI } from "../utils"
+import { githubUsersPaginatedDataSearchFetcher } from "../utils"
 
-const pageSize = 75
+const PAGE_SIZE = 75
 
 export default (props: PageProps) => {
-  const [search, setSearch] = useState<string>(null)
+  const [query, setSearch] = useState<string>(null)
   const [data, setData] = useReducer(userDataReducer, [])
   const [page, dispatchPage] = useReducer(pageReducer, 1)
 
-  // When our search changes, we must change our results and reset our pager
+  // When our query  changes, we must change our results and reset our pager
   // (it needs to be done before we trigget a data fetching)
   useLayoutEffect(() => {
     dispatchPage({ type: "reset" })
     setData({ type: "reset" })
-  }, [search])
+  }, [query])
 
   const { data: _data, error, isValidating } = useSWR(
-    search ? [`/search/users`, search, page, pageSize] : null,
-    userDataFetcher
+    query ? [query, page, PAGE_SIZE] : null,
+    githubUsersPaginatedDataSearchFetcher
   )
 
-  const loading = useMemo(() => !_data && isValidating, [_data, isValidating])
+  const hasMoreToLoad = useMemo(
+    () =>
+      isValidating ||
+      !!(
+        _data?.total_count &&
+        data.length &&
+        data.length !== _data?.total_count
+      ),
+    [_data, data, isValidating]
+  )
 
   const nextPage = useCallback(
     () =>
       dispatchPage({
         type: "set",
-        page: Math.floor(data.length / pageSize) + 1,
+        page: Math.floor(data.length / PAGE_SIZE) + 1,
       }),
     [data]
   )
@@ -85,32 +94,12 @@ export default (props: PageProps) => {
       <SearchInput onSearch={setSearch} />
       <UserList
         data={data}
-        search={search}
+        searchedQuery={query}
         fetchNext={nextPage}
-        hasMore={
-          isValidating ||
-          !!(
-            _data?.total_count &&
-            data.length &&
-            data.length !== _data?.total_count
-          )
-        }
+        hasMore={hasMoreToLoad}
       />
     </div>
   )
-}
-
-async function userDataFetcher(
-  url: string,
-  q: string,
-  page: number,
-  per_page: number
-): Promise<GitHubAPIResposne> {
-  const { data } = await githubAPI.get<GitHubAPIResposne>(url, {
-    params: { q, page, per_page },
-  })
-
-  return data
 }
 
 const userDataReducer: Reducer<
@@ -134,42 +123,14 @@ const pageReducer: Reducer<
   number,
   { type: "next" } | { type: "reset" } | { type: "set"; page: number }
 > = (page, action) => {
-  if (action.type === "reset") return 1
-  if (action.type === "next") return page + 1
-  if (action.type === "set") return action.page
-
-  return page
-}
-
-interface GitHubAPIResposne {
-  incomplete_results: boolean
-  total_count: number
-  items: {
-    login: string
-    id: number
-    node_id: string
-    avatar_url: string
-    gravatar_id: string
-    url: string
-    html_url: string
-    followers_url: string
-    following_url: string
-    gists_url: string
-    starred_url: string
-    subscriptions_url: string
-    organizations_url: string
-    repos_url: string
-    events_url: string
-    received_events_url: string
-    type: string
-    site_admin: boolean
-    score: number
-    text_matches?: {
-      object_url: string
-      object_type: string
-      property: string
-      fragment: string
-      matches: [{ text: string; indices: [number, number] }]
-    }[]
-  }[]
+  switch (action.type) {
+    case "reset":
+      return 1
+    case "next":
+      return page + 1
+    case "set":
+      return action.page
+    default:
+      return page
+  }
 }
