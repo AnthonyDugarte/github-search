@@ -134,11 +134,16 @@ const pageReducer: Reducer<
   number,
   { type: "next" } | { type: "reset" } | { type: "set"; page: number }
 > = (page, action) => {
-  if (action.type === "reset") return 1
-  if (action.type === "next") return page + 1
-  if (action.type === "set") return action.page
-
-  return page
+  switch (action.type) {
+    case "reset":
+      return 1
+    case "next":
+      return page + 1
+    case "set":
+      return action.page
+    default:
+      return page
+  }
 }
 
 interface GitHubAPIResposne {
