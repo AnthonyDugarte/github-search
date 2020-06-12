@@ -7,7 +7,7 @@ describe("User card component", () => {
   test("Matches snapshot with search", () => {
     const { asFragment } = render(
       <UserCard
-        search="an"
+        searchedQuery="an"
         data={{ id: 1, username: "Anthony", avatar_url: "", profile_url: "" }}
       />
     )

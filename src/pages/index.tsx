@@ -20,19 +20,19 @@ import { githubUsersPaginatedDataSearchFetcher } from "../utils"
 const PAGE_SIZE = 75
 
 export default (props: PageProps) => {
-  const [search, setSearch] = useState<string>(null)
+  const [query, setSearch] = useState<string>(null)
   const [data, setData] = useReducer(userDataReducer, [])
   const [page, dispatchPage] = useReducer(pageReducer, 1)
 
-  // When our search changes, we must change our results and reset our pager
+  // When our query  changes, we must change our results and reset our pager
   // (it needs to be done before we trigget a data fetching)
   useLayoutEffect(() => {
     dispatchPage({ type: "reset" })
     setData({ type: "reset" })
-  }, [search])
+  }, [query])
 
   const { data: _data, error, isValidating } = useSWR(
-    search ? [search, page, PAGE_SIZE] : null,
+    query ? [query, page, PAGE_SIZE] : null,
     githubUsersPaginatedDataSearchFetcher
   )
 
@@ -94,7 +94,7 @@ export default (props: PageProps) => {
       <SearchInput onSearch={setSearch} />
       <UserList
         data={data}
-        search={search}
+        searchedQuery={query}
         fetchNext={nextPage}
         hasMore={hasMoreToLoad}
       />

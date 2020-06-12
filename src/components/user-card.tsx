@@ -3,22 +3,25 @@ import dompurify from "dompurify"
 import { UserData } from "../interfaces"
 
 export interface UserCardProps {
-  search?: string
+  searchedQuery?: string
   data: UserData
 }
 
-const UserCard: FunctionComponent<UserCardProps> = ({ data, search }) => {
+const UserCard: FunctionComponent<UserCardProps> = ({
+  data,
+  searchedQuery,
+}) => {
   const { username, avatar_url, profile_url } = data
 
   const formated_username = useMemo(
     () =>
-      !search
+      !searchedQuery
         ? username
         : username.replace(
-            RegExp(`(${search})`, "ig"),
+            RegExp(`(${searchedQuery})`, "ig"),
             "<span class='text-red-500'>$1</span>"
           ),
-    [username, search]
+    [username, searchedQuery]
   )
 
   return (

@@ -9,7 +9,7 @@ import UserCard from "./user-card"
 
 export interface UserListProps {
   data: UserData[]
-  search?: string
+  searchedQuery?: string
 
   hasMore?: boolean
 
@@ -18,7 +18,7 @@ export interface UserListProps {
 
 const UserList: FunctionComponent<UserListProps> = ({
   data,
-  search,
+  searchedQuery,
   fetchNext,
   hasMore,
 }) => (
@@ -35,7 +35,7 @@ const UserList: FunctionComponent<UserListProps> = ({
       }
     >
       {data.map(user => (
-        <UserCard key={user.id} data={user} search={search} />
+        <UserCard key={user.id} data={user} searchedQuery={searchedQuery} />
       ))}
     </InfiniteScroll>
   </div>
