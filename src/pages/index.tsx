@@ -15,7 +15,7 @@ import UserList from "../components/user-list"
 import Seo from "../components/seo"
 
 import { UserData } from "../interfaces"
-import { githubAPI } from "../utils"
+import { githubUsersPaginatedDataSearchFetcher } from "../utils"
 
 const pageSize = 75
 
@@ -32,8 +32,8 @@ export default (props: PageProps) => {
   }, [search])
 
   const { data: _data, error, isValidating } = useSWR(
-    search ? [`/search/users`, search, page, pageSize] : null,
-    userDataFetcher
+    search ? [search, page, pageSize] : null,
+    githubUsersPaginatedDataSearchFetcher
   )
 
   const hasMoreToLoad = useMemo(
@@ -102,19 +102,6 @@ export default (props: PageProps) => {
   )
 }
 
-async function userDataFetcher(
-  url: string,
-  q: string,
-  page: number,
-  per_page: number
-): Promise<GitHubAPIResposne> {
-  const { data } = await githubAPI.get<GitHubAPIResposne>(url, {
-    params: { q, page, per_page },
-  })
-
-  return data
-}
-
 const userDataReducer: Reducer<
   UserData[],
   { type: "add"; payload: UserData[] } | { type: "reset" }
@@ -146,37 +133,4 @@ const pageReducer: Reducer<
     default:
       return page
   }
-}
-
-interface GitHubAPIResposne {
-  incomplete_results: boolean
-  total_count: number
-  items: {
-    login: string
-    id: number
-    node_id: string
-    avatar_url: string
-    gravatar_id: string
-    url: string
-    html_url: string
-    followers_url: string
-    following_url: string
-    gists_url: string
-    starred_url: string
-    subscriptions_url: string
-    organizations_url: string
-    repos_url: string
-    events_url: string
-    received_events_url: string
-    type: string
-    site_admin: boolean
-    score: number
-    text_matches?: {
-      object_url: string
-      object_type: string
-      property: string
-      fragment: string
-      matches: [{ text: string; indices: [number, number] }]
-    }[]
-  }[]
 }
