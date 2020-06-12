@@ -36,7 +36,16 @@ export default (props: PageProps) => {
     userDataFetcher
   )
 
-  const loading = useMemo(() => !_data && isValidating, [_data, isValidating])
+  const hasMoreToLoad = useMemo(
+    () =>
+      isValidating ||
+      !!(
+        _data?.total_count &&
+        data.length &&
+        data.length !== _data?.total_count
+      ),
+    [_data, data, isValidating]
+  )
 
   const nextPage = useCallback(
     () =>
@@ -87,14 +96,7 @@ export default (props: PageProps) => {
         data={data}
         search={search}
         fetchNext={nextPage}
-        hasMore={
-          isValidating ||
-          !!(
-            _data?.total_count &&
-            data.length &&
-            data.length !== _data?.total_count
-          )
-        }
+        hasMore={hasMoreToLoad}
       />
     </div>
   )
